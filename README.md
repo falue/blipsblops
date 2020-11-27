@@ -55,7 +55,7 @@ The rhythm of "on" and "off" is defined for each LED in an array of structs.
 Each LED has a `trigger` defined, e.g. `3`. This LED triggers every *n*th step which is a multiple of `3`.
 `3` means that this LED triggers every *third* step to be either *on* or *off*. Every step is as fast as your `speed` variable.
 
-The `speed` in milliseconds should be defined to match the fastest blinking led.
+The `speed` in milliseconds should be defined to match the fastest blinking LED.
 
 ### Text based examples
 
@@ -66,7 +66,7 @@ So if you want a simple single flashing LED that toggles on and off every second
 If you want to have two LEDs to alternate every half second:
 - Set `speed` to `500` milliseconds
 - Set the `trigger` of LED 1 to `2` steps
-- Set the `trigger` of LED 2 to `2` steps and `offset` to 1 step
+- Set the `trigger` of LED 2 to `2` steps and `offset` to 2 steps
 
 If you want to fade out a LED every second:
 - Set `speed` to `15` milliseconds
