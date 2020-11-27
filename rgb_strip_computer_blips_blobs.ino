@@ -33,89 +33,20 @@ int brightness = 255;
 CRGB colorSpace[] = {CRGB::Red, CRGB::Red, CRGB::Orange, CRGB::Orange, CRGB::Orange, CRGB::Orange, CRGB::Green};
 
 
-// define of led array structure
+// Define of led array structure
 typedef struct ledPersonality {
   int ledNum;             // which led from 0 to NUM_LEDS
   int trigger;            // toggle on/off every x step (1 step = 1 loop). 1 = every step; 2 every second step and so on
   int offset;             // trigger with offset steps
   CRGB color;             // duh; color like CRGB::Red etc
-  int lastStepTriggered;  // last time on-blink is triggered. always start at 0.
+  int lastStepTriggered;  // last time on-blink is triggered. always start at 0. Do not change this.
   float symmetricRatio;   // times off-time is skipped so longer off times than on times. 1=symmetric on/off; >1 longer off than on.
   float accuracy;         // hit trigger time. 100=non random; 50=50% chance of triggering when supposed; 1 very random; 0 never.
   int fadeOut;            // fadeout of led 0-99. 0 immediately black out; 99 very slowly; 100 never.
 };
 
-// VAR. EXAMPLES ------------------------------------------------------------------
-// various random shit
-/* int numLightUpLeds = 14;
-ledPersonality ledSchemas[14] = {  
-  {0, 30,   0, CRGB::Red,     0, 1.0,, 0 100.0},
-  {1, 60,   0, CRGB::Green,   0, 2.0, 100.0, 0},  // black out is twice as long
-  {2, 60,   0, CRGB::Orange,   0, 12.0, 100.0, 0},  // black out is twelve times as long
-  {3, 30,   0, CRGB::White,   0, 1.0, 33.0, 0},
-  {7, 5,   0, CRGB::Yellow,  0, 1.0, 100.0, 0},  // fast
-  {8, 5,   0, CRGB::Yellow,  0, 1.0, 15.0, 0},  // fast, radom
-  {9, 5,   0, CRGB::Yellow,  0, 1.0, 5.0, 0},  // fast, very random
-  {12, 100, 0, CRGB::Magenta, 0, 1.0, 100.0, 0},
-  {13, 45, 0, CRGB::Blue, 0, 1.0, 100.0, 0},
-  {14, 175, 0, CRGB::Green, 0, 1.0, 100.0, 0},
-  {17, 80, 0, CRGB::Cyan, 0, 1.0, 100.0, 0},
-  {18, 80, 0, CRGB::Cyan, 0, 1.0, 100.0, 0},
-  {19, 80, 0, CRGB::Cyan, 0, 1.0, 100.0, 0},
-  {20, 80, 0, CRGB::Cyan, 0, 1.0, 95.0, 0}  // slightly off timing
-}; */
-
-// Walking lights
-/* int numLightUpLeds = 20;
-ledPersonality ledSchemas[20] = {  
-  {0, 100,   0, CRGB::Red,  0, 1.0, 100.0, 0},
-  {1, 100,   25, CRGB::Red,  0, 1.0, 100.0, 10},
-  {2, 100,   50, CRGB::Red,  0, 1.0, 100.0, 20},
-  {3, 100,   75, CRGB::Red,  0, 1.0, 100.0, 30},
-  {4, 100,   100, CRGB::Red,  0, 1.0, 100.0, 40},
-  {5, 100,   125, CRGB::Red,  0, 1.0, 100.0, 50},
-  {6, 100,   150, CRGB::Red,  0, 1.0, 100.0, 60},
-  {7, 100,   175, CRGB::Red,  0, 1.0, 100.0, 70},
-  {8, 100,   200, CRGB::Red,  0, 1.0, 100.0, 80},
-  {9, 100,   225, CRGB::Red,  0, 1.0, 100.0, 90},
-  {10, 100,   250, CRGB::Red,  0, 1.0, 100.0, 100},
-  {11, 100,   275, CRGB::Red,  0, 1.0, 100.0, 100},
-  {12, 100,   300, CRGB::Red,  0, 1.0, 100.0, 100},
-  {13, 100,   325, CRGB::Red,  0, 1.0, 100.0, 100},
-  {14, 100,   350, CRGB::Red,  0, 1.0, 100.0, 100},
-  {15, 100,   375, CRGB::Red,  0, 1.0, 100.0, 100},
-  {16, 100,   400, CRGB::Red,  0, 1.0, 100.0, 100},
-  {17, 100,   425, CRGB::Red,  0, 1.0, 100.0, 100},
-  {18, 100,   450, CRGB::Red,  0, 1.0, 100.0, 100},
-  {19, 100,   475, CRGB::Red,  0, 1.0, 100.0, 100}
-}; */
-
-// Random Flickering blips and blobs
-/* int numLightUpLeds = 20;
-ledPersonality ledSchemas[20] = {  
-  {0, 33,   0, CRGB::Black,  0, 1.0, 88.0, 50},
-  {1, 5,   25, CRGB::Black,  0, 2.0, 55.0, 0},
-  {2, 125,   50, CRGB::Black,  0, 4.0, 33.0, 75},
-  {3, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {4, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {5, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {6, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {7, 33,   0, CRGB::Black,  0, 1.0, 88.0, 0},
-  {8, 5,   25, CRGB::Black,  0, 2.0, 55.0, 50},
-  {9, 125,   50, CRGB::Black,  0, 4.0, 33.0, 50},
-  {10, 250,   75, CRGB::Black,  0, 1.0, 77.0, 0},
-  {11, 22,   75, CRGB::Black,  0, 1.0, 77.0, 0},
-  {12, 25,   75, CRGB::Black,  0, 1.0, 88.0, 50},
-  {13, 80,   75, CRGB::Blue,  0, 1.0, 100.0, 99},  // slowly blinking, fade out
-  {14, 2,   50, CRGB::Black,  0, 4.0, 33.0, 50},
-  {15, 3,   75, CRGB::Black,  0, 1.0, 22.0, 0},
-  {16, 4,   75, CRGB::Black,  0, 1.0, 77.0, 0},
-  {17, 5,   75, CRGB::Black,  0, 1.0, 88.0, 50},
-  {18, 10,   75, CRGB::Black,  0, 1.0, 75.0, 0},
-  {19, 10,   75, CRGB::Black,  0, 1.0, 75.0, 90}
-}; */
-
-int numLightUpLeds = 14;  // CHANGE IT DEPENDING ON struct of leds!
+// Setup up your LED strip
+int numLightUpLeds = 14;
 ledPersonality ledSchemas[14] = {
   {0, 33,   0, CRGB::Orange,  0, 1.0, 100.0, 90},
   {1, 66,   25, CRGB::White,  0, 2.0, 100.0, 90},
@@ -133,101 +64,9 @@ ledPersonality ledSchemas[14] = {
   {13, 333,   75, CRGB::White,  0, 1.0, 88.0, 90}  // slowpoke
 };
 
-// FROZEN WAR
-/* int numLightUpLeds = 53;  // CHANGE IT DEPENDING ON struct of leds!
-ledPersonality ledSchemas[53] = {
-  // 20 LEDS:  0-19 "Lüfter"
-  {0, 33,   0, CRGB::Black,  0, 1.0, 88.0, 50},
-  {1, 5,   25, CRGB::Black,  0, 2.0, 55.0, 0},
-  {2, 125,   50, CRGB::Black,  0, 4.0, 33.0, 75},
-  {3, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {4, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {5, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {6, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  // synchron 
-  {7, 33,   0, CRGB::Black,  0, 1.0, 88.0, 0},
-  {8, 5,   25, CRGB::Black,  0, 2.0, 55.0, 50},
-  {9, 125,   50, CRGB::Orange,  0, 4.0, 33.0, 50},
-  {10, 250,   75, CRGB::Black,  0, 1.0, 77.0, 0},
-  {11, 22,   75, CRGB::Black,  0, 1.0, 77.0, 0},
-  {12, 25,   75, CRGB::Black,  0, 1.0, 88.0, 50},
-  {13, 80,   75, CRGB::Red,  0, 1.0, 100.0, 99},  // slowly blinking, fade out
-  {14, 2,   50, CRGB::Black,  0, 4.0, 33.0, 50},
-  {15, 3,   75, CRGB::Black,  0, 1.0, 22.0, 0},
-  {16, 4,   75, CRGB::Orange,  0, 1.0, 77.0, 0},
-  {17, 5,   75, CRGB::Black,  0, 1.0, 88.0, 50},
-  {18, 10,   75, CRGB::Black,  0, 1.0, 75.0, 0},
-  {19, 10,   75, CRGB::Black,  0, 1.0, 75.0, 90},
-
-  // 14 LEDs: 20-33 "Racks"
-  {20, 33,   0, CRGB::Orange,  0, 1.0, 100.0, 90},  // schublade 1
-  {21, 66,   25, CRGB::White,  0, 2.0, 100.0, 90},  // schublade 2
-  {22, 125,   50, CRGB::White,  0, 4.0, 100.0, 90},  // schublade 3
-  {23, 50,   0, CRGB::White,  0, 1.0, 100.0, 90},  // schublade 4
-    // "Kontrollzentrum": Erste reihe
-  {24, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},
-  {25, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0}, 
-  {26, 18,   0, CRGB::Green,  0, 1.0, 100.0, 0}, 
-  {27, 12,   0, CRGB::Green,  0, 1.0, 88.0, 0},
-  {28, 6,   25, CRGB::Orange,  0, 2.0, 55.0, 50},
-    // "Kontrollzentrum": Zweite reihe
-  {29, 3,   50, CRGB::White,  0, 4.0, 33.0, 90},
-  {30, 3,   75, CRGB::White,  0, 1.0, 77.0, 90},
-  {31, 9,   75, CRGB::White,  0, 1.0, 77.0, 90},
-  {32, 9,   75, CRGB::White,  0, 1.0, 88.0, 90},
-  {33, 333,   75, CRGB::White,  0, 1.0, 88.0, 90},  // slowpoke
-
-  // 18 stk LEDs: 34-52 "Motherboard"
-  {34, 100,   75, CRGB::Green,  0, 1.0, 100.0, 99},  // slowly blinking, fade out
-  {35, 3,   75, CRGB::Orange,  0, 1.0, 22.0, 0},
-  {36, 4,   75, CRGB::Black,  0, 1.0, 77.0, 0},  // MIT PHYSISCHEM DIFFUSOR
-  {38, 10,   75, CRGB::Orange,  0, 1.0, 75.0, 90},
-  {39, 80,   0, CRGB::Orange,  0, 1.0, 100.0, 0},
-  {40, 33,   0, CRGB::Orange,  0, 1.0, 88.0, 50},
-  {41, 5,   25, CRGB::Black,  0, 2.0, 55.0, 0},  
-  {42, 125,   50, CRGB::Black,  0, 4.0, 33.0, 75},
-  {43, 6,   0, CRGB::Red,  0, 1.0, 100.0, 0},  
-  {44, 12,   0, CRGB::Black,  0, 1.0, 100.0, 0}, 
-  {45, 6,   0, CRGB::Orange,  0, 1.0, 100.0, 0}, 
-  {46, 80,   0, CRGB::Orange,  0, 1.0, 100.0, 0}, 
-  {47, 33,   0, CRGB::Black,  0, 1.0, 88.0, 0},
-  {48, 5,   25, CRGB::Black,  0, 2.0, 55.0, 50},
-  {49, 125,   50, CRGB::Black,  0, 4.0, 33.0, 50},
-  {50, 150,   75, CRGB::Green,  0, 1.0, 50.0, 60},  // sync
-  {51, 150,   75, CRGB::Green,  0, 1.0, 50.0, 60},  // sync
-  {52, 150,   75, CRGB::Green,  0, 1.0, 50.0, 60},  // sync + MIT PHYSISCHEM DIFFUSOR
-  /*   {53, 150,   75, CRGB::Green,  0, 1.0, 50.0, 60},  // sync
-  {54, 2,   50, CRGB::Black,  0, 4.0, 33.0, 50},
-  {55, 3,   75, CRGB::Orange,  0, 1.0, 22.0, 0},
-  {56, 4,   75, CRGB::Black,  0, 1.0, 77.0, 0} */
-/*};
-*/
-
-// For random color assign ::Black
-/* int numLightUpLeds = 1;  // CHANGE IT DEPENDING ON struct of leds!
-ledPersonality ledSchemas[1] = {  
-  {0, 75,   0, CRGB::Black,  0, 1.0, 100.0, 0}
-}; */
-
-// Fading out
-/* int numLightUpLeds = 12;  // CHANGE IT DEPENDING ON struct of leds!
-ledPersonality ledSchemas[12] = {  
-  {0, 75,   0, CRGB::Black,  0, 1.0, 100.0, 0},
-  {1, 75,   0, CRGB::Black,  0, 1.0, 100.0, 10},
-  {2, 75,   0, CRGB::Black,  0, 1.0, 100.0, 30},
-  {3, 75,   0, CRGB::Black,  0, 1.0, 100.0, 50},
-  {4, 75,   0, CRGB::Black,  0, 1.0, 100.0, 60},
-  {5, 75,   0, CRGB::Black,  0, 1.0, 100.0, 75},
-  {6, 75,   0, CRGB::Black,  0, 1.0, 100.0, 82},
-  {7, 75,   0, CRGB::Black,  0, 1.0, 100.0, 86},
-  {8, 75,   0, CRGB::Black,  0, 1.0, 100.0, 91},
-  {9, 75,   0, CRGB::Black,  0, 1.0, 100.0, 95},
-  {10, 75,   0, CRGB::Black,  0, 1.0, 100.0, 98},
-  {11, 75,   0, CRGB::Black,  0, 1.0, 100.0, 99}
-}; */
-
 void setup() {
   Serial.begin(9600);
-  delay(333); // 3 second delay for recovery
+  delay(333); // Delay for recovery
 
   // LED TYPE APA102
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
@@ -249,15 +88,18 @@ void loop() {
     ledPersonality led = ledSchemas[i];
     int ledNum = led.ledNum;
     
-    // if its more than 0% on, turn it off
+    // If its more than 0% on, turn it off
     if(leds[ledNum] && (step - led.offset) % led.trigger == 0 && led.fadeOut == 0) {
+        // Blackout led if it is lit
         if(led.accuracy == 100.0 || random(0, 100) < led.accuracy) {
-          leds[ledNum] = CRGB::Black;  // blackout
+          leds[ledNum] = CRGB::Black;
         }
 
+      // Fadeout LED more if it is fading out
       } else if (leds[ledNum] && step > led.lastStepTriggered + led.trigger  && led.fadeOut > 0) {
         fadeTowardColor(leds[ledNum], CRGB::Black, 255 - map(led.fadeOut, 0, 100, 0, 255));
 
+      // Turn LED on
       } else if (
         !leds[ledNum] &&
         (step - led.offset) % led.trigger == 0 &&
