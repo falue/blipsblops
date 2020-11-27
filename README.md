@@ -65,8 +65,8 @@ So if you want a simple single flashing LED that toggles on and off every second
 
 If you want to have two LEDs to alternate every half second:
 - Set `speed` to `500` milliseconds
-- Set the `trigger` of LED 1 to `2` steps
-- Set the `trigger` of LED 2 to `2` steps and `offset` to 2 steps
+- Set the `trigger` of LED 1 to `1` steps
+- Set the `trigger` of LED 2 to `1` steps and `offset` to 1 step
 
 If you want to fade out a LED every second:
 - Set `speed` to `15` milliseconds
