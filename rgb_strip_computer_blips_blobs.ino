@@ -43,17 +43,17 @@ typedef struct ledPersonality {
   CRGB color;             // Color like CRGB::Red etc
   int lastStepTriggered;  // Last time on was triggered. Always start at 0. Do not change this.
   float symmetricRatio;   // Skew ratio between on and off:
-                             // 1.0  = symmetric on/off ratio;
-                             // >1.0 = longer off than on;
-                             // <1.0 = longer on than off
+                             // 0.5 = on is twice as long as off;
+                             // 1.0 = symmetric on/off ratio;
+                             // 3.0 = off is thrice as long as on
   float accuracy;         // Accuracy of trigger time, 1 to 100:
                              // 100 = trigger exactly when supposed to;
                              // 50  = 50% chance of triggering when supposed to;
                              // 1   = very random;
-  int fadeOut;            // Fading out of led, 0 to 99:
-                             // 0 =  do not fade out;
-                             // 50 = fade out
-                             // 99 = fade out very slowly
+  int fadeOut;            // Fading out of led, 0.0 to 99.9:
+                             // 0.0 =  do not fade out;
+                             // 50.0 = fade out
+                             // 99.0 = fade out very slowly
 };
 
 // Setup up your LED strip
