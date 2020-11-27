@@ -6,7 +6,7 @@ Works with APA102 and WS2812 RGB LED strips.
 # Video
 ![video](./readme/example.gif)
 
-# Example setups
+# Workflow
 
 You can assign any LED on your strip a rhythm, a color, and various other settings.
 You do not have to declare every single LED, its possible to just define what you need to blip and to blop.
@@ -22,15 +22,13 @@ So if you want a simple single flashing LED that triggers every second either on
 If you want to fade out this led, you 
 - Set `speed` to `15` (milliseconds)
 - Set the `trigger` of your LED to `67` (1000/15=66.6)
-- Set `fadeOut` to `50`
+- Set `fadeOut` of your LED to `50`
 
-As the fade out logic needs the `speed` variable to fade out the LEDs, set it to `15`, which is the sweet spot for dimming, and calculate how many loops it takes for the trigger to reach *1000* (it takes ~67 loops @ 15ms to reach 1 second).
-
-
+As the fade out logic needs the `speed` variable to fade out the LEDs, set it to `15`, which is the sweet spot for dimming. Calculate how many loops it takes for the trigger to reach *1000* (it takes ~67 loops @ 15ms to reach 1 second).
 
 Note: A "fade in" mode is not implemented.
 
-### All the options per LED:
+### All the options per LED
 
 ```C++
 typedef struct ledPersonality {
@@ -53,7 +51,7 @@ Each loop where the trigger of this LED is firing, a random color will be chosen
 ```
 
 
-## VAR. SETUP EXAMPLES 
+## Var. ledSchemas examples
 
 Walking lights:
 ```C++
