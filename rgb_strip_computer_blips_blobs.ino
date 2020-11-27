@@ -10,12 +10,12 @@
 //#define LED_PIN 6
 
 // General
-#define COLOR_ORDER  BGR  // if colors are wrong, use GRB
-#define NUM_LEDS  14
+#define COLOR_ORDER  BGR  // If colors are wrong, use GRB
+#define NUM_LEDS  14      // Total LEDs the LED strip
 CRGB leds[NUM_LEDS];
-long step = 0;
-int speed = 15;
-int brightness = 255;
+long step = 0;            // Counter of loops
+int speed = 15;           // Duration (ms) of each loop/step
+int brightness = 255;     // Max brightness of LEDs
 
 // ORIGINAL WEB COLORS (SUCK FOR LED, ALL WASHED OUT)
 // CRGB colorSpace[] = {CRGB::AliceBlue, CRGB::Amethyst, CRGB::AntiqueWhite, CRGB::Aqua, CRGB::Aquamarine, CRGB::Azure, CRGB::Beige, CRGB::Bisque, CRGB::BlanchedAlmond, CRGB::Blue, CRGB::BlueViolet, CRGB::Brown, CRGB::BurlyWood, CRGB::CadetBlue, CRGB::Chartreuse, CRGB::Chocolate, CRGB::Coral, CRGB::CornflowerBlue, CRGB::Cornsilk, CRGB::Crimson, CRGB::Cyan, CRGB::DarkBlue, CRGB::DarkCyan, CRGB::DarkGoldenrod, CRGB::DarkGray, CRGB::DarkGrey, CRGB::DarkGreen, CRGB::DarkKhaki, CRGB::DarkMagenta, CRGB::DarkOliveGreen, CRGB::DarkOrange, CRGB::DarkOrchid, CRGB::DarkRed, CRGB::DarkSalmon, CRGB::DarkSeaGreen, CRGB::DarkSlateBlue, CRGB::DarkSlateGray, CRGB::DarkSlateGrey, CRGB::DarkTurquoise, CRGB::DarkViolet, CRGB::DeepPink, CRGB::DeepSkyBlue, CRGB::DimGray, CRGB::DimGrey, CRGB::DodgerBlue, CRGB::FireBrick, CRGB::FloralWhite, CRGB::ForestGreen, CRGB::Fuchsia, CRGB::Gainsboro, CRGB::GhostWhite, CRGB::Gold, CRGB::Goldenrod, CRGB::Gray, CRGB::Grey, CRGB::Green, CRGB::GreenYellow, CRGB::Honeydew, CRGB::HotPink, CRGB::IndianRed, CRGB::Indigo, CRGB::Ivory, CRGB::Khaki, CRGB::Lavender, CRGB::LavenderBlush, CRGB::LawnGreen, CRGB::LemonChiffon, CRGB::LightBlue, CRGB::LightCoral, CRGB::LightCyan, CRGB::LightGoldenrodYellow, CRGB::LightGreen, CRGB::LightGrey, CRGB::LightPink, CRGB::LightSalmon, CRGB::LightSeaGreen, CRGB::LightSkyBlue, CRGB::LightSlateGray, CRGB::LightSlateGrey, CRGB::LightSteelBlue, CRGB::LightYellow, CRGB::Lime, CRGB::LimeGreen, CRGB::Linen, CRGB::Magenta, CRGB::Maroon, CRGB::MediumAquamarine, CRGB::MediumBlue, CRGB::MediumOrchid, CRGB::MediumPurple, CRGB::MediumSeaGreen, CRGB::MediumSlateBlue, CRGB::MediumSpringGreen, CRGB::MediumTurquoise, CRGB::MediumVioletRed, CRGB::MidnightBlue, CRGB::MintCream, CRGB::MistyRose, CRGB::Moccasin, CRGB::NavajoWhite, CRGB::Navy, CRGB::OldLace, CRGB::Olive, CRGB::OliveDrab, CRGB::Orange, CRGB::OrangeRed, CRGB::Orchid, CRGB::PaleGoldenrod, CRGB::PaleGreen, CRGB::PaleTurquoise, CRGB::PaleVioletRed, CRGB::PapayaWhip, CRGB::PeachPuff, CRGB::Peru, CRGB::Pink, CRGB::Plaid, CRGB::Plum, CRGB::PowderBlue, CRGB::Purple, CRGB::Red, CRGB::RosyBrown, CRGB::RoyalBlue, CRGB::SaddleBrown, CRGB::Salmon, CRGB::SandyBrown, CRGB::SeaGreen, CRGB::Seashell, CRGB::Sienna, CRGB::Silver, CRGB::SkyBlue, CRGB::SlateBlue, CRGB::SlateGray, CRGB::SlateGrey, CRGB::Snow, CRGB::SpringGreen, CRGB::SteelBlue, CRGB::Tan, CRGB::Teal, CRGB::Thistle, CRGB::Tomato, CRGB::Turquoise, CRGB::Violet, CRGB::Wheat, CRGB::White, CRGB::WhiteSmoke, CRGB::Yellow, CRGB::YellowGreen, CRGB::FairyLight, CRGB::FairyLightNCC };
@@ -35,18 +35,29 @@ CRGB colorSpace[] = {CRGB::Red, CRGB::Red, CRGB::Orange, CRGB::Orange, CRGB::Ora
 
 // Define of led array structure
 typedef struct ledPersonality {
-  int ledNum;             // which led from 0 to NUM_LEDS
-  int trigger;            // toggle on/off every x step (1 step = 1 loop). 1 = every step; 2 every second step and so on
-  int offset;             // trigger with offset steps
-  CRGB color;             // duh; color like CRGB::Red etc
-  int lastStepTriggered;  // last time on-blink is triggered. always start at 0. Do not change this.
-  float symmetricRatio;   // times off-time is skipped so longer off times than on times. 1=symmetric on/off; >1 longer off than on.
-  float accuracy;         // hit trigger time. 100=non random; 50=50% chance of triggering when supposed; 1 very random; 0 never.
-  int fadeOut;            // fadeout of led 0-99. 0 immediately black out; 99 very slowly; 100 never.
+  int ledNum;             // Target LED index, 0 to NUM_LEDS
+  int trigger;            // Toggle on/off every "trigger"th step (1 step = 1 loop):
+                             // 1 = every step;
+                             // 2 = every second step and so on
+  int offset;             // Hit "trigger" after "offset" steps
+  CRGB color;             // Color like CRGB::Red etc
+  int lastStepTriggered;  // Last time on was triggered. Always start at 0. Do not change this.
+  float symmetricRatio;   // Skew ratio between on and off:
+                             // 1.0  = symmetric on/off ratio;
+                             // >1.0 = longer off than on;
+                             // <1.0 = longer on than off
+  float accuracy;         // Accuracy of trigger time, 1 to 100:
+                             // 100 = trigger exactly when supposed to;
+                             // 50  = 50% chance of triggering when supposed to;
+                             // 1   = very random;
+  int fadeOut;            // Fading out of led, 0 to 99:
+                             // 0 =  do not fade out;
+                             // 50 = fade out
+                             // 99 = fade out very slowly
 };
 
 // Setup up your LED strip
-int numLightUpLeds = 14;
+int numLightUpLeds = 14;  // Total of active LEDs
 ledPersonality ledSchemas[14] = {
   {0, 33,   0, CRGB::Orange,  0, 1.0, 100.0, 90},
   {1, 66,   25, CRGB::White,  0, 2.0, 100.0, 90},
@@ -73,7 +84,7 @@ void setup() {
 
   // LED TYPE WS2812
   // FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  
+
   FastLED.setBrightness(brightness);
   Serial.println("*********************************");
   Serial.println("Startup complete.");
@@ -88,14 +99,14 @@ void loop() {
     ledPersonality led = ledSchemas[i];
     int ledNum = led.ledNum;
     
-    // If its more than 0% on, turn it off
+    // Should LED be triggered at all?
     if(leds[ledNum] && (step - led.offset) % led.trigger == 0 && led.fadeOut == 0) {
-        // Blackout led if it is lit
+        // Black out led if it is lit
         if(led.accuracy == 100.0 || random(0, 100) < led.accuracy) {
           leds[ledNum] = CRGB::Black;
         }
 
-      // Fadeout LED more if it is fading out
+      // Fadeout more if it is fading out
       } else if (leds[ledNum] && step > led.lastStepTriggered + led.trigger  && led.fadeOut > 0) {
         fadeTowardColor(leds[ledNum], CRGB::Black, 255 - map(led.fadeOut, 0, 100, 0, 255));
 
