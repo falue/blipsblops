@@ -12,11 +12,23 @@ You can assign any LED on your strip a rhythm, a color, and various other settin
 You do not have to declare every single LED, its possible to just define what you need to blip and to blop.
 
 The rhythm is defined for each LED in an array of structs.
-Each LED has a `trigger` defined, e.g. `2`. This means that this LED triggers every *second* loop to be either *on* or *off*. A `loop()` is about as fast as your `speed` variable.
+Each LED has a `trigger` defined, e.g. `3`. This LED triggers every *n*th loop which is a multiple of `3`.
+`3` means that this LED triggers every *third* loop to be either *on* or *off*. A `loop()` is about as fast as your `speed` variable.
 
 So if you want a simple single flashing LED that triggers every second either on or off:
-- Set `speed` to `1000`
+- Set `speed` to `1000` (milliseconds)
 - Set the `trigger` of your LED to `1`
+
+If you want to fade out this led, you 
+- Set `speed` to `15` (milliseconds)
+- Set the `trigger` of your LED to `67` (1000/15=66.6)
+- Set `fadeOut` to `50`
+
+As the fade out logic needs the `speed` variable to fade out the LEDs, set it to `15`, which is the sweet spot for dimming, and calculate how many loops it takes for the trigger to reach *1000* (it takes ~67 loops @ 15ms to reach 1 second).
+
+
+
+Note: A "fade in" mode is not implemented.
 
 ### All the options per LED:
 
