@@ -36,12 +36,15 @@ typedef struct ledPersonality {
 
 ### Pick random color
 For a random color, assign `CRGB::Black` to `color`.
+```C++
+{0, 75, 0, CRGB::Black, 0, 1.0, 100.0, 0},
+```
 Each step where the trigger of this LED is firing, a random color will be chosen from your `colorSpace[]` array.
 
 This array can contain multiple identical values, which makes them more likely to be chosen.
 
 ```C++
-  {0, 75,   0, CRGB::Black,  0, 1.0, 100.0, 0}
+CRGB colorSpace[] = {CRGB::Red, CRGB::Red, CRGB::Green, CRGB::White, ... };
 ```
 
 # Workflow
