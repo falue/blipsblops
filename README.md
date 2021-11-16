@@ -16,6 +16,7 @@ typedef struct ledPersonality {
   int trigger;            // Toggle on/off every "trigger"th step (1 step = 1 loop):
                              // 1 = every step;
                              // 2 = every second step and so on
+                             // == 9999 LED is always on
   int offset;             // Hit "trigger" after "offset" steps
   CRGB color;             // Color like CRGB::Red etc
   int lastStepTriggered;  // Last time on was triggered. Always start at 0. Do not change this.
@@ -46,6 +47,9 @@ This array can contain multiple identical values, which makes them more likely t
 ```C++
 CRGB colorSpace[] = {CRGB::Red, CRGB::Red, CRGB::Green, CRGB::White, ... };
 ```
+
+### Continous LEDs
+To turn a specific LED always on, set the trigger value to exactly `9999`.
 
 # Workflow
 You can assign any LED on your strip a rhythm, a color, and various other settings.
