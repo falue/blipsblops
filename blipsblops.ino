@@ -24,13 +24,17 @@ int brightness = 255;     // Max brightness of LEDs
 // CRGB colorSpace[] = {CRGB::Aqua, CRGB::Azure, CRGB::Blue, CRGB::Brown, CRGB::Chartreuse, CRGB::Coral, CRGB::CornflowerBlue, CRGB::Crimson, CRGB::Cyan, CRGB::DarkBlue, CRGB::DarkCyan, CRGB::DarkGoldenrod, CRGB::DarkGreen, CRGB::DarkMagenta, CRGB::DarkOrange, CRGB::DarkOrchid, CRGB::DarkRed, CRGB::DarkTurquoise, CRGB::DarkViolet, CRGB::DeepPink, CRGB::DeepSkyBlue, CRGB::DodgerBlue, CRGB::FireBrick, CRGB::ForestGreen, CRGB::Fuchsia, CRGB::Gold, CRGB::Green, CRGB::HotPink, CRGB::Indigo, CRGB::LawnGreen, CRGB::LightSeaGreen, CRGB::Lime, CRGB::Magenta, CRGB::Maroon, CRGB::MediumBlue, CRGB::MediumSpringGreen, CRGB::MediumTurquoise, CRGB::MediumVioletRed, CRGB::MidnightBlue, CRGB::Navy, CRGB::Olive, CRGB::Orange, CRGB::OrangeRed, CRGB::Purple, CRGB::Red, CRGB::RoyalBlue, CRGB::SpringGreen, CRGB::SteelBlue, CRGB::Teal, CRGB::Tomato, CRGB::White, CRGB::Yellow, CRGB::FairyLight};
 
 // Less colors
-//CRGB colorSpace[] = {CRGB::Blue, CRGB::Brown, CRGB::Chartreuse, CRGB::CornflowerBlue, CRGB::Cyan, CRGB::DarkBlue, CRGB::DarkCyan, CRGB::DarkGoldenrod, CRGB::DarkGreen, CRGB::DarkMagenta, CRGB::DarkOrange, CRGB::DarkOrchid, CRGB::DarkRed, CRGB::DarkTurquoise, CRGB::DarkViolet, CRGB::DeepPink, CRGB::DeepSkyBlue, CRGB::FireBrick, CRGB::ForestGreen, CRGB::Gold, CRGB::Green, CRGB::HotPink, CRGB::Indigo, CRGB::LightSeaGreen, CRGB::Lime, CRGB::Magenta, CRGB::MediumBlue, CRGB::MediumSpringGreen, CRGB::MediumTurquoise, CRGB::MediumVioletRed, CRGB::MidnightBlue, CRGB::Navy, CRGB::Olive, CRGB::Orange, CRGB::OrangeRed, CRGB::Purple, CRGB::Red, CRGB::RoyalBlue, CRGB::SteelBlue, CRGB::Tomato, CRGB::White, CRGB::Yellow, CRGB::FairyLight};
+// CRGB colorSpace[] = {CRGB::Blue, CRGB::Brown, CRGB::Chartreuse, CRGB::CornflowerBlue, CRGB::Cyan, CRGB::DarkBlue, CRGB::DarkCyan, CRGB::DarkGoldenrod, CRGB::DarkGreen, CRGB::DarkMagenta, CRGB::DarkOrange, CRGB::DarkOrchid, CRGB::DarkRed, CRGB::DarkTurquoise, CRGB::DarkViolet, CRGB::DeepPink, CRGB::DeepSkyBlue, CRGB::FireBrick, CRGB::ForestGreen, CRGB::Gold, CRGB::Green, CRGB::HotPink, CRGB::Indigo, CRGB::LightSeaGreen, CRGB::Lime, CRGB::Magenta, CRGB::MediumBlue, CRGB::MediumSpringGreen, CRGB::MediumTurquoise, CRGB::MediumVioletRed, CRGB::MidnightBlue, CRGB::Navy, CRGB::Olive, CRGB::Orange, CRGB::OrangeRed, CRGB::Purple, CRGB::Red, CRGB::RoyalBlue, CRGB::SteelBlue, CRGB::Tomato, CRGB::White, CRGB::Yellow, CRGB::FairyLight};
 
 // Even lesser colors
 // CRGB colorSpace[] = {CRGB::Blue, CRGB::Red, CRGB::Orange, CRGB::White, CRGB::Cyan, CRGB::Green, CRGB::DarkCyan, CRGB::DarkGoldenrod, CRGB::DarkGreen, CRGB::Tomato, CRGB::White, CRGB::Yellow, CRGB::FairyLight};
 
 // Custom colors
-CRGB colorSpace[] = {CRGB::Red, CRGB::Red, CRGB::Orange, CRGB::Orange, CRGB::Orange, CRGB::Orange, CRGB::Green};
+// CRGB colorSpace[] = {CRGB::Red, CRGB::Red, CRGB::Orange, CRGB::Orange, CRGB::Orange, CRGB::Orange, CRGB::Green};
+
+// ALDI colors
+CRGB colorSpace[] = {CRGB::Blue, CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::DodgerBlue, CRGB::CornflowerBlue, CRGB::Green, CRGB::DarkCyan, CRGB::DarkGreen}; 
+
 
 
 // Define of led array structure
