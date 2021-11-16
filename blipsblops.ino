@@ -2,8 +2,8 @@
 
 // LED TYPE APA102
 #define LED_TYPE  APA102
-#define DATA_PIN  0
-#define CLK_PIN  1
+#define DATA_PIN  1  // 5 sometimes and
+#define CLK_PIN  0  // 4 sometimes
 
 // LED TYPE WS2812
 //#define LED_TYPE  WS2812
@@ -39,6 +39,7 @@ typedef struct ledPersonality {
   int trigger;            // Toggle on/off every "trigger"th step (1 step = 1 loop):
                              // 1 = every step;
                              // 2 = every second step and so on
+                             // == 9999 LED is always on
   int offset;             // Hit "trigger" after "offset" steps
   CRGB color;             // Color like CRGB::Red etc
   int lastStepTriggered;  // Last time on was triggered. Always start at 0. Do not change this.
@@ -92,12 +93,28 @@ void setup() {
 
   // Black out all leds
   fill_solid(leds, NUM_LEDS, CRGB::Black);
+
+  // Turn on every static LED (if trigger == 9999)
+  for(int i = 0; i < numLightUpLeds; i++) {
+    ledPersonality led = ledSchemas[i];
+    
+    // Should LED be triggered at all?
+    if(led.trigger == 9999) {
+      leds[led.ledNum] = led.color;
+    }
+  }
+  FastLED.show();
 }
 
 void loop() {
   for(int i = 0; i < numLightUpLeds; i++) {
     ledPersonality led = ledSchemas[i];
     int ledNum = led.ledNum;
+
+    // If LED is static, skip this LED
+    if(led.trigger == 9999) {
+      continue;
+    }
     
     // Should LED be triggered at all?
     if(leds[ledNum] && (step - led.offset) % led.trigger == 0 && led.fadeOut == 0) {
